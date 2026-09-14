@@ -4,17 +4,17 @@ This repository contains the full analytical pipeline for **"App Insights Unlock
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 The mobile app market is highly competitive. To build, launch, and maintain successful applications, companies must make data-driven decisions. This project imports raw Google Play Store data into Power BI to construct a star-schema analytical model that identifies the core drivers behind high app ratings, user reviews, and mass installations.
 
-### 🎯 Key Objectives
+###  Key Objectives
 * Build an optimized, compressed **Power BI Semantic Model**.
 * Identify key factors contributing to an app's success on the Google Play Store.
 * Deliver an interactive, operational executive dashboard for internal product managers and app developers.
 
 ---
 
-## 📊 Dataset & Requirements
+##  Dataset & Requirements
 
 ### Data Source
 The analysis utilizes the publicly available [ Kaggle Google Play Store Apps Dataset ]( https://kaggle.com ).
@@ -40,7 +40,7 @@ The dataset contains the following structural features:
 
 ---
 
-## 🛠️ Power BI Tools & Technologies Used
+##  Power BI Tools & Technologies Used
 
 Power BI is a collection of software services, apps, and connectors that work together to turn unrelated sources of data into coherent, visually immersive, and interactive insights. The specific internal components utilized in this project include:
 
@@ -55,7 +55,7 @@ Power BI is a collection of software services, apps, and connectors that work to
 
 ---
 
-## 🧹 Data Preprocessing & Cleaning Workflows (Power Query)
+##  Data Preprocessing & Cleaning Workflows (Power Query)
 To prepare the dataset for flawless dashboard filtering, the following **Power Query ETL transformations** were implemented:
 1. **Handling Missing Values:** Used **Column Quality profiling** under the **View Tab** to flag missing rating blocks. Rows with blank or `null` critical indicators (`App`, `Category`) were purged.
 2. **Type Parsing & Cleaning:** Applied *Replace Values* transformations to strip out trailing `+` and `,` strings from the `Installs` column and removed the `$` symbol from `Price`, converting both into clean numerical data types.
@@ -65,7 +65,7 @@ To prepare the dataset for flawless dashboard filtering, the following **Power Q
 
 ---
 
-## 📐 Semantic Model Architecture (Star Schema)
+##  Semantic Model Architecture (Star Schema)
 To maximize DAX execution efficiency and visual rendering speed, the original flat file was decoupled into a highly performant star schema model:
 * **Fact Table:** `Fact_Apps` — Contains numerical measures (`Rating`, `Reviews`, `Size_MB`, `Price`, normalized minimum installation baselines) and surrogate relationship keys.
 * **Dimension Table:** `Dim_Category_Genres` — Unique attributes map containing categories paired against sub-industry genres.
@@ -74,7 +74,7 @@ To maximize DAX execution efficiency and visual rendering speed, the original fl
 
 ---
 
-## 📝 Core Business Metrics (DAX Reference Guide)
+##  Core Business Metrics (DAX Reference Guide)
 
 ### 1. General Benchmarks
 ```dax
@@ -112,28 +112,28 @@ IF(
 
 ---
 
-## ⚠️ Challenges Faced & Power BI Mitigations
+##  Challenges Faced & Power BI Mitigations
 
-* ### 📉 Empty Meters & Gray Bars in Data Profiling
+* ###  Empty Meters & Gray Bars in Data Profiling
   **Challenge:** While checking column health, the `Size` column displayed a partially empty green meter with a noticeable gray section. 
   **Mitigation:** The gray segment represents hidden `null` records or unparsed text like "Varies with device". This was handled in Power Query by filtering out the device-variable rows and substituting remaining structural blanks using targeted data imputation rules.
-* ### 🔄 Model View Rendering Flaws
+* ###  Model View Rendering Flaws
   **Challenge:** After loading large data tables from Power Query, some table schemas or specific modified fields failed to instantly appear or refresh inside the **Model View** canvas.
   **Mitigation:** This known metadata sync bug was bypassed by executing a manual model refresh, saving the project framework, and forcing a cold restart of **Power BI Desktop** to cleanly re-draw the logical schemas.
-* ### 🗺️ Missing Navigation Icons
+* ###  Missing Navigation Icons
   **Challenge:** The user interface layout felt unmanageable due to hidden panels, and formatting menus (like the *Format Visual Paintbrush*) or certain field maps seemed missing from view.
   **Mitigation:** Resolved by leveraging Power BI's updated **Pane Manager** under the **View Ribbon** to cleanly pin, restore, and snap missing visual creation tools, data tables, and formatting panes directly back onto the active layout grid.
 
 ---
 
-## 💡 Core Insights Gathered (via DAX Measures)
+##  Core Insights Gathered (via DAX Measures)
 * **Engagement Asymmetry:** Explicit DAX calculations mapping average review volumes prove that Free applications yield massively higher active user review counts compared to Paid apps, highlighting that upfront financial gates drastically suppress user feedback loops.
 * **Category Dominance:** Building a clustered column chart sorted by total installs instantly highlights that market velocity is exponentially dominated by 5 core saturated categories, signaling a high-demand market.
 * **Size Threshold Friction:** Binned analysis pairing localized app sizing metrics against user installs reveals a distinct drop-off in user adoption when the file footprint crosses standard consumer storage tolerances.
 
 ---
 
-## 🚀 Recommendations for Improvement
+##  Recommendations for Improvement
 * **Enforce Direct Star-Schemas:** Disregard flat, wide tables inside Power BI Desktop. Separate the application profiles into a single centralized **Fact Table** surrounded by highly performant, distinct **Dimension Tables** (e.g., separate Dimensions for Calendar dates and App categories) to maintain ultra-fast DAX processing.
 * **Implement Calendar Intelligence:** Avoid relying on native, auto-generated date hierarchies. Import a dedicated, robust DAX date calendar table to run seamless historical update analytics and capture true update-frequency patterns.
 * **Aggressive Data Reduction:** To maximize server performance and speed up dashboard render times, remove or hide unneeded background columns (such as `Current Ver` or `Android Ver`) inside the Model View properties pane if they aren't explicitly requested by dashboard users.
